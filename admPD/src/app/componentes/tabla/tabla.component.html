@@ -1,0 +1,79 @@
+<div>
+  <button type="button" class="btn btn-primary" (click)="agregar(editModal)">Agregar</button>
+  <hr>
+</div>
+<div>
+  <table class="table">
+
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">DNI</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of personas">
+        <td>{{i.id}}</td>
+        <td>{{i.nombre}}</td>
+        <td>{{i.apellido}}</td>
+        <td>{{i.dni}}</td>
+
+        <td>
+          <button type="button" class="btn btn-danger" (click)="delete(i.id)">Eliminar</button>
+          <button type="button" class="btn btn-warning" (click)="update(editModal, i)">Editar</button>
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+
+  <ng-template #editModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Editar persona</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <form [formGroup]="persona">
+        <div>
+          <input formControlName="nombre" placeholder="Nombre" name="nombre">
+        </div>
+        <div class="validacion" *ngIf="persona.get('nombre').hasError('required')">Campo requerido</div>
+        <div class="validacion" *ngIf="persona.get('nombre').hasError('minlength')">Necesita un mínimo de 2 caractéres</div>
+        <div class="validacion" *ngIf="persona.get('nombre').hasError('pattern')">No ingrese números o caractéres especiales</div>
+        <div>
+          <input formControlName="apellido" placeholder="Apellido" name="apellido">
+        </div>
+        <div class="validacion" *ngIf="persona.get('apellido').hasError('required')">Campo requerido</div>
+        <div class="validacion" *ngIf="persona.get('apellido').hasError('minlength')">Necesita un mínimo de 2 caractéres</div>
+        <div class="validacion" *ngIf="persona.get('apellido').hasError('pattern')">No ingrese números o caractéres especiales</div>
+        <div>
+          <input formControlName="dni" placeholder="DNI" name="dni">
+        </div>
+        <div class="validacion" *ngIf="persona.get('dni').hasError('required')">Campo requerido</div>
+        <div class="validacion" *ngIf="persona.get('dni').hasError('minlength') || persona.get('dni').hasError('maxlength') ">Ingrese entre
+          7 y 8 caractéres</div>
+        <div class="validacion" *ngIf="persona.get('dni').hasError('pattern')"> Ingrese solo números</div>
+
+
+        <div>
+          <tr>
+            <td colspan="6" class="">
+              <button class="boton" class="btn btn-danger" (click)="modal.dismiss('Cross click')" s>Cancelar</button>
+              <button class="boton" [disabled]="persona.invalid" class="btn btn-primary"
+                (click)="confirmarEdit(persona)">Aceptar</button>
+            </td>
+          </tr>
+        </div>
+      </form>
+
+    </div>
+  </ng-template>
+
+</div>
